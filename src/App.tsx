@@ -20,7 +20,7 @@ const projects = [
     title: "SetMeApp",
     description: "Client-Consumer appointment app",
     image:
-      "https://user-images.githubusercontent.com/60454465/132158715-24e07eed-3c47-4d24-953d-443a9f75904e.jpg",
+      "https://user-images.githubusercontent.com/60454465/132158692-4a6dd6a5-42b1-4959-91ef-d19f7dd986a4.jpg",
     github: "https://github.com/kitdaniellim/doc-app",
     tech: "React Native, React, Expo Firebase",
   },
