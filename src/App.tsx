@@ -198,7 +198,7 @@ function App() {
               href="https://linkedin.com/in/kitdaniellim"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
+              className="text-gray-400 hover:text-black transition-colors"
             >
               <Linkedin size={24} />
             </a>
