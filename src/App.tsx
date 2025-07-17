@@ -9,8 +9,7 @@ const projects = [
   {
     id: 1,
     title: "Alab",
-    description:
-      "Thesis Project, 'ALAB'. Game developed with Unity that I used to teach GE-RPH, an elective course in my college university.",
+    description: "Game Development",
     image:
       "https://user-images.githubusercontent.com/60454465/163956138-90ba7d41-00b2-43a8-b858-dbc476233c44.png",
     github: "https://github.com/kitdaniellim/alab-unity-game",
@@ -19,8 +18,7 @@ const projects = [
   {
     id: 2,
     title: "SetMeApp",
-    description:
-      "SetMeApp is an appointment setting tool for use between doctors and patients. The application allows doctors to register and create their own profile, send message to clients, set appointment dates in the calendar, and accept and reject appointments.",
+    description: "Client-Consumer appointment app",
     image:
       "https://user-images.githubusercontent.com/60454465/132158715-24e07eed-3c47-4d24-953d-443a9f75904e.jpg",
     github: "https://github.com/kitdaniellim/doc-app",
@@ -28,9 +26,8 @@ const projects = [
   },
   {
     id: 3,
-    title: "Weather Dashboard",
-    description:
-      "SmallTalk is a user messaging application that allows users to chat with each other similar to Messenger. Created using Dart and Prototyped with Figma.",
+    title: "Small Talk",
+    description: "UI/UX Interfaces",
     image:
       "https://user-images.githubusercontent.com/60454465/182025950-10e3c168-3ced-4333-9291-6dc51767e24c.png",
     github: "https://github.com/kitdaniellim/smalltalk",
@@ -38,8 +35,8 @@ const projects = [
   },
   {
     id: 4,
-    title: "Small Talk",
-    description: "React.js Weather App 24-Hour Coding Challenge",
+    title: "Weather App",
+    description: "API Handling",
     image:
       "https://user-images.githubusercontent.com/60454465/200169282-3c1cdedd-a6da-4168-b407-35fd87e5066b.png",
     github: "https://github.com/kitdaniellim/portfolio-v2",
@@ -189,9 +186,9 @@ function App() {
           </div>
 
           <h1 className="text-4xl lg:text-5xl font-serif text-gray-900 mb-16 leading-tight">
-            Have code, will travel. Available for projects, large and small,
-            especially ones that require innovative thinking or cutting-edge
-            technologies.
+            Ready to craft code and travel. Available for projects, large and
+            small, especially ones that require innovative thinking or
+            cutting-edge technologies.
           </h1>
 
           <div className="w-full h-px bg-gray-300 mb-12"></div>
