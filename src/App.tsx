@@ -39,7 +39,7 @@ const projects = [
     description: "API Handling",
     image:
       "https://user-images.githubusercontent.com/60454465/200169282-3c1cdedd-a6da-4168-b407-35fd87e5066b.png",
-    github: "https://github.com/kitdaniellim/portfolio-v2",
+    github: "https://github.com/kitdaniellim/weather-app",
     tech: "Javascript, HTML, CSS",
   },
 ];
