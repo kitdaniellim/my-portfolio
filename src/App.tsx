@@ -275,12 +275,15 @@ function App() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <button
-              onClick={() => handleNavigation("home")}
-              className="text-2xl font-serif text-gray-900 hover:text-gray-600 transition-colors"
-            >
-              Kit Daniel Lim
-            </button>
+            <div className="flex">
+              {/* Adjust h-8 w-8 as needed */}
+              <button
+                onClick={() => handleNavigation("home")}
+                className="text-2xl font-serif text-gray-900 hover:text-gray-600 transition-colors"
+              >
+                Kit Daniel Lim
+              </button>
+            </div>
             <div className="flex items-center gap-8">
               <button
                 onClick={() => handleNavigation("about")}
