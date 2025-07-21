@@ -68,13 +68,12 @@ function App() {
               <div>
                 <p className="text-xl text-gray-600 mb-6">Hello,</p>
                 <h2 className="text-5xl lg:text-6xl font-serif leading-tight text-gray-900 mb-6">
-                  I'm a <span className="italic">developer</span> based out of
-                  Cebu City, Philippines.
+                  I'm a <span className="italic">developer</span> based in Cebu
+                  City, Philippines.
                 </h2>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  I'm a passionate <span className="italic">programmer</span>{" "}
-                  with a mindset for growth striving to make the world a more
-                  unified and community-driven place.
+                  Passionate developer committed to continuous self-improvement—
+                  one who actively seeks out and embraces new challenges.
                 </p>
               </div>
               <div className="flex justify-center lg:justify-start">
@@ -186,13 +185,19 @@ function App() {
           </div>
 
           <h1 className="text-4xl lg:text-5xl font-serif text-gray-900 mb-16 leading-tight">
-            Ready to craft code and travel. Available for projects, large and
-            small, especially ones that require innovative thinking or
-            cutting-edge technologies.
+            Ready to craft code and deploy.
           </h1>
-
-          <div className="w-full h-px bg-gray-300 mb-12"></div>
-
+          <div className="space-y-8 text-lg text-gray-700 leading-relaxed">
+            <p>
+              Ready to bring your vision to life? I'm available for projects of
+              all sizes, especially those that call for innovative thinking or
+              cutting-edge technologies. Whether it's a small task or a
+              large-scale endeavor, I'm eager to tackle challenges and build
+              solutions that make a real impact.
+            </p>
+            <p>And yes, I'm ready to code from anywhere the world takes me!</p>
+          </div>
+          <div className="w-full h-px bg-gray-300 mb-12 mt-16"></div>
           <div className="flex flex-wrap items-center gap-8 mb-16">
             <a
               href="https://linkedin.com/in/kitdaniellim"
