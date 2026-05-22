@@ -1,80 +1,160 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap, MOTION_OK } from "../../lib/gsap";
+import { scrollToSection } from "../../lib/scroll";
+import { navItems, profile } from "../../data/site";
 import { cn } from "../../lib/utils";
 
-interface NavbarProps {
-    currentSection: string;
-    onNavigate: (section: string) => void;
-}
+const Navbar = () => {
+  const headerRef = useRef<HTMLElement>(null);
+  const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [active, setActive] = useState(navItems[0].id);
+  const [scrolled, setScrolled] = useState(false);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, ready: false });
 
-const navItems = [
-    { id: "home", label: "Home" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-];
+  // One-time entrance, guarded so reduced-motion users see it instantly.
+  useGSAP(
+    () => {
+      gsap.matchMedia().add(MOTION_OK, () => {
+        gsap.from(headerRef.current, {
+          y: -80,
+          autoAlpha: 0,
+          duration: 0.6,
+          ease: "power3.out",
+        });
+      });
+    },
+    { scope: headerRef }
+  );
 
-const Navbar = ({ currentSection, onNavigate }: NavbarProps) => {
-    const [scrolled, setScrolled] = useState(false);
+  // Scroll-spy via live geometry. We probe a line at 45% of the viewport and
+  // pick whichever section's on-screen rect crosses it. This is pin-aware for
+  // free: GSAP pins the Projects section as position:fixed, so its live rect
+  // spans the viewport for its whole pinned scroll. A bottom-of-page guard
+  // catches the short Contact footer, whose top never reaches the probe line.
+  useEffect(() => {
+    const ids = navItems.map((i) => i.id);
+    let raf = 0;
+    let cancelled = false;
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
+    const update = () => {
+      raf = 0;
+      if (cancelled) return;
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+      const probe = window.innerHeight * 0.45;
+      let current: (typeof ids)[number] = ids[0];
+      for (const id of ids) {
+        const rect = document.getElementById(id)?.getBoundingClientRect();
+        if (rect && rect.top <= probe && rect.bottom > probe) current = id;
+      }
 
-    return (
-        <motion.header
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                scrolled ? "py-4" : "py-6"
-            )}
+      // Bottom guard: Lenis exposes a cached scroll limit, so we avoid reading
+      // document.scrollHeight every frame (a layout-flushing read).
+      const limit =
+        window.lenis?.limit ??
+        document.documentElement.scrollHeight - window.innerHeight;
+      if (window.scrollY >= limit - 2) current = ids[ids.length - 1];
+
+      setActive((prev) => (prev === current ? prev : current));
+      setScrolled(window.scrollY > 40);
+    };
+
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  // Slide the active-pill indicator to track the active button. Replaces
+  // framer-motion's layoutId — a CSS transition on left/width is cheaper and
+  // drops a whole animation dependency. We re-measure on resize AND once web
+  // fonts settle, since font swap changes button widths but never fires resize.
+  useLayoutEffect(() => {
+    let alive = true;
+    const measure = () => {
+      if (!alive) return;
+      const btn = btnRefs.current[active];
+      if (btn) setIndicator({ left: btn.offsetLeft, width: btn.offsetWidth, ready: true });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    document.fonts?.ready.then(measure);
+    return () => {
+      alive = false;
+      window.removeEventListener("resize", measure);
+    };
+  }, [active]);
+
+  return (
+    <header
+      ref={headerRef}
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-[padding] duration-300",
+        scrolled ? "py-3" : "py-5"
+      )}
+    >
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6">
+        <button
+          onClick={() => scrollToSection("home")}
+          className="cursor-pointer text-lg font-extrabold tracking-tight text-ink"
+          aria-label="Back to top"
         >
-            <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                <button
-                    onClick={() => onNavigate("home")}
-                    className="text-xl font-bold tracking-tight text-white mix-blend-difference"
-                >
-                    KDL<span className="text-purple-500">.</span>
-                </button>
+          {profile.initials}
+          <span className="text-accent-ink">.</span>
+        </button>
 
-                <nav className="hidden md:flex items-center gap-1 p-1 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-lg">
-                    {navItems.map((item) => (
-                        <button
-                            key={item.id}
-                            onClick={() => onNavigate(item.id)}
-                            className={cn(
-                                "relative px-4 py-2 text-sm font-medium rounded-full transition-colors",
-                                currentSection === item.id
-                                    ? "text-white"
-                                    : "text-gray-400 hover:text-white"
-                            )}
-                        >
-                            {currentSection === item.id && (
-                                <motion.div
-                                    layoutId="activeTab"
-                                    className="absolute inset-0 bg-white/10 rounded-full"
-                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                />
-                            )}
-                            {item.label}
-                        </button>
-                    ))}
-                </nav>
+        <nav
+          aria-label="Primary"
+          className={cn(
+            "frost relative hidden items-center gap-1 rounded-full p-1 transition-shadow md:flex",
+            scrolled && "shadow-frost-lg"
+          )}
+        >
+          {/* Sliding active indicator */}
+          <span
+            aria-hidden
+            className={cn(
+              "absolute inset-y-1 rounded-full bg-accent/10 ring-1 ring-accent/20 transition-all duration-300 ease-out",
+              indicator.ready ? "opacity-100" : "opacity-0"
+            )}
+            style={{ left: indicator.left, width: indicator.width }}
+          />
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              ref={(el) => {
+                btnRefs.current[item.id] = el;
+              }}
+              onClick={() => scrollToSection(item.id)}
+              aria-current={active === item.id ? "page" : undefined}
+              className={cn(
+                "relative z-10 cursor-pointer rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                active === item.id ? "text-ink" : "text-muted hover:text-ink"
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
 
-                <button
-                    onClick={() => window.location.href = "mailto:kitdaniellim@gmail.com"}
-                    className="hidden md:block px-5 py-2 text-sm font-medium text-black bg-white rounded-full hover:bg-gray-100 transition-colors"
-                >
-                    Let's Talk
-                </button>
-            </div>
-        </motion.header>
-    );
+        <button
+          onClick={() => scrollToSection("contact")}
+          className="hidden cursor-pointer rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white shadow-frost transition-colors hover:bg-accent-ink md:block"
+        >
+          Let&apos;s Talk
+        </button>
+      </div>
+    </header>
+  );
 };
 
 export default Navbar;

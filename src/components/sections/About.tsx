@@ -1,56 +1,139 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap, MOTION_OK } from "../../lib/gsap";
+import { about, SECTIONS } from "../../data/site";
 
 const About = () => {
-    return (
-        <section id="about" className="py-24 px-6 md:px-12 bg-black relative">
-            <div className="max-w-4xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                >
-                    <h2 className="text-sm font-medium tracking-widest text-purple-400 uppercase mb-3">
-                        About Me
-                    </h2>
-                    <h3 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-12">
-                        From Cebu City, Philippines.
-                        <br />
-                        <span className="text-gray-500">At home everywhere.</span>
-                    </h3>
+  const root = useRef<HTMLElement>(null);
 
-                    <div className="space-y-8 text-lg md:text-xl text-gray-300 leading-relaxed font-light">
-                        <p>
-                            For me, coding is more than just writing lines—it's about crafting solutions. I'm eager to connect with projects of all sizes, particularly those that spark creativity and demand a fresh approach or leverage the latest tech.
-                        </p>
-                        <p>
-                            With over five years of software development experience, I'm highly proficient in the technical aspects of Frontend and Backend Web Development. I thrive under pressure, consistently exceeding expectations to achieve both personal and company goals.
-                        </p>
-                    </div>
+  useGSAP(
+    () => {
+      gsap.matchMedia().add(MOTION_OK, () => {
+        // Heading clip-reveal as the section enters.
+        gsap.from(".about-head", {
+          yPercent: 110,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: root.current, start: "top 75%" },
+        });
 
-                    <div className="mt-16 pt-16 border-t border-white/10 flex flex-wrap gap-12">
-                        <div>
-                            <h4 className="text-white font-bold mb-4">Frontend</h4>
-                            <ul className="text-gray-400 space-y-2">
-                                <li>React / Next.js</li>
-                                <li>TypeScript</li>
-                                <li>Tailwind CSS</li>
-                                <li>Framer Motion / GSAP</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold mb-4">Backend</h4>
-                            <ul className="text-gray-400 space-y-2">
-                                <li>Node.js</li>
-                                <li>Python</li>
-                                <li>PostgreSQL</li>
-                                <li>Firebase</li>
-                            </ul>
-                        </div>
-                    </div>
-                </motion.div>
+        // Bio paragraphs revealed progressively, tied to scroll position.
+        gsap.from(".about-line", {
+          y: 28,
+          opacity: 0,
+          stagger: 0.2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".about-copy",
+            start: "top 80%",
+            end: "bottom 65%",
+            scrub: 1,
+          },
+        });
+
+        // Each stat with a numeric target counts up the first time it's seen.
+        const section = root.current;
+        section?.querySelectorAll<HTMLElement>("[data-counter]").forEach((el) => {
+          const target = Number(el.dataset.counter);
+          if (Number.isNaN(target)) return;
+          const obj = { val: 0 };
+          gsap.to(obj, {
+            val: target,
+            duration: 1.6,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            onUpdate: () => {
+              el.textContent = Math.round(obj.val).toString();
+            },
+          });
+        });
+
+        // Skill chips draw in with a stagger.
+        gsap.from(".skill-chip", {
+          y: 16,
+          opacity: 0,
+          scale: 0.96,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "back.out(1.6)",
+          scrollTrigger: { trigger: ".skill-grid", start: "top 80%" },
+        });
+      });
+    },
+    { scope: root }
+  );
+
+  return (
+    <section id={SECTIONS.about} ref={root} className="relative px-4 py-28 sm:px-6">
+      <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+        {/* Left: story */}
+        <div>
+          <p className="eyebrow mb-4">About Me</p>
+          <h2 className="overflow-hidden">
+            <span className="about-head inline-block text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
+              {about.headingLead}
+              <br />
+              <span className="text-faint">{about.headingTrail}</span>
+            </span>
+          </h2>
+
+          <div className="about-copy mt-10 space-y-6 text-lg leading-relaxed text-muted">
+            {about.paragraphs.map((para, i) => (
+              <p key={i} className="about-line">
+                {para}
+              </p>
+            ))}
+          </div>
+
+          {/* Stats */}
+          <div className="mt-12 flex flex-wrap gap-10 border-t border-line pt-10">
+            {about.stats.map((stat) => (
+              <div key={stat.label}>
+                <div className="flex items-end gap-1 font-display text-5xl font-extrabold leading-none text-ink">
+                  {"count" in stat ? (
+                    <>
+                      <span data-counter={stat.count}>{stat.count}</span>
+                      {stat.suffix && (
+                        <span className="text-3xl text-accent-ink">{stat.suffix}</span>
+                      )}
+                    </>
+                  ) : (
+                    <span>{stat.display}</span>
+                  )}
+                </div>
+                <p className="mt-2 text-sm font-medium text-muted">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: skills */}
+        <div className="skill-grid flex flex-col gap-5">
+          {about.skills.map((group) => (
+            <div
+              key={group.title}
+              className="rounded-2.5xl border border-line bg-surface p-7 shadow-frost"
+            >
+              <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-ink">
+                <span className="inline-block h-2 w-2 rounded-full bg-accent" />
+                {group.title}
+              </h3>
+              <ul className="flex flex-wrap gap-2.5">
+                {group.items.map((item) => (
+                  <li
+                    key={item}
+                    className="skill-chip rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-medium text-ink"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-        </section>
-    );
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default About;

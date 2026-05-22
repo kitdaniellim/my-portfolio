@@ -1,18 +1,18 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "kit-daniel-lim-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.34.0",
     "gsap": "^3.14.2",
     "lenis": "^1.3.17",
     "lucide-react": "^0.344.0",

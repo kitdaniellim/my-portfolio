@@ -1,74 +1,111 @@
-import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { Mail, Phone, ArrowUpRight } from "lucide-react";
+import { gsap, MOTION_OK } from "../../lib/gsap";
+import { contact, socials, profile, SECTIONS } from "../../data/site";
 
 const Contact = () => {
-    return (
-        <footer id="contact" className="py-24 px-6 md:px-12 bg-zinc-950 border-t border-white/10">
-            <div className="max-w-7xl mx-auto">
-                <div className="grid md:grid-cols-2 gap-16 mb-24">
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-                            Let's work together.
-                        </h2>
-                        <p className="text-xl text-gray-400">
-                            Ready to bring your vision to life? I'm available for freelance projects and open to new opportunities.
-                        </p>
-                    </motion.div>
+  const root = useRef<HTMLElement>(null);
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="flex flex-col justify-center gap-6"
-                    >
-                        <a
-                            href="mailto:kitdaniellim@gmail.com"
-                            className="flex items-center gap-4 text-2xl md:text-3xl text-gray-300 hover:text-white transition-colors group"
-                        >
-                            <Mail className="group-hover:text-purple-400 transition-colors" />
-                            kitdaniellim@gmail.com
-                        </a>
-                        <a
-                            href="tel:+639322368116"
-                            className="flex items-center gap-4 text-2xl md:text-3xl text-gray-300 hover:text-white transition-colors group"
-                        >
-                            <Phone className="group-hover:text-purple-400 transition-colors" />
-                            (+63) 932-236-8116
-                        </a>
-                    </motion.div>
-                </div>
+  useGSAP(
+    () => {
+      gsap.matchMedia().add(MOTION_OK, () => {
+        // The CTA card scales + fades in as the footer enters view.
+        gsap.from(".contact-card", {
+          y: 60,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: root.current, start: "top 80%" },
+        });
+        gsap.from(".contact-line", {
+          y: 20,
+          opacity: 0,
+          stagger: 0.12,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: { trigger: ".contact-card", start: "top 70%" },
+        });
+      });
+    },
+    { scope: root }
+  );
 
-                <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5">
-                    <p className="text-gray-500 mb-4 md:mb-0">
-                        © {new Date().getFullYear()} Kit Daniel Lim. All rights reserved.
-                    </p>
+  return (
+    <footer id={SECTIONS.contact} ref={root} className="bg-bg px-4 pb-12 pt-28 sm:px-6">
+      <div className="mx-auto max-w-6xl">
+        {/* CTA card */}
+        <div className="contact-card relative overflow-hidden rounded-[2rem] border border-line bg-surface p-10 shadow-frost-lg sm:p-16">
+          {/* decorative glow */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/15 blur-[100px]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-accent-soft/15 blur-[100px]" />
 
-                    <div className="flex gap-6">
-                        <a
-                            href="https://linkedin.com/in/kitdaniellim"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-400 hover:text-white transition-colors"
-                        >
-                            <Linkedin size={24} />
-                        </a>
-                        <a
-                            href="https://github.com/kitdaniellim"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-400 hover:text-white transition-colors"
-                        >
-                            <Github size={24} />
-                        </a>
-                    </div>
-                </div>
+          <div className="relative grid gap-12 md:grid-cols-2 md:items-center">
+            <div>
+              <p className="contact-line eyebrow mb-4">Get in touch</p>
+              <h2 className="contact-line text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
+                Let&apos;s work
+                <br />
+                together.
+              </h2>
+              <p className="contact-line mt-5 max-w-md text-lg text-muted">{contact.blurb}</p>
             </div>
-        </footer>
-    );
+
+            <div className="flex flex-col gap-4">
+              <a
+                href={`mailto:${contact.email}`}
+                className="contact-line group flex items-center justify-between gap-4 rounded-2xl border border-line bg-surface-2 px-6 py-5 transition-colors hover:border-accent/40 hover:bg-white"
+              >
+                <span className="flex items-center gap-4 text-lg font-semibold text-ink sm:text-xl">
+                  <Mail className="text-accent-ink" size={22} />
+                  {contact.email}
+                </span>
+                <ArrowUpRight
+                  className="text-faint transition-colors group-hover:text-accent-ink"
+                  size={20}
+                />
+              </a>
+              <a
+                href={contact.phone.href}
+                className="contact-line group flex items-center justify-between gap-4 rounded-2xl border border-line bg-surface-2 px-6 py-5 transition-colors hover:border-accent/40 hover:bg-white"
+              >
+                <span className="flex items-center gap-4 text-lg font-semibold text-ink sm:text-xl">
+                  <Phone className="text-accent-ink" size={22} />
+                  {contact.phone.display}
+                </span>
+                <ArrowUpRight
+                  className="text-faint transition-colors group-hover:text-accent-ink"
+                  size={20}
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer bar */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 sm:flex-row">
+          <p className="text-sm text-muted">
+            © {new Date().getFullYear()} {profile.name}. All rights reserved.
+          </p>
+          <div className="flex gap-2">
+            {socials.map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${label} profile`}
+                className="rounded-full border border-line bg-surface p-3 text-muted shadow-frost transition-colors hover:border-accent/40 hover:text-accent-ink"
+              >
+                <Icon size={20} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Contact;
