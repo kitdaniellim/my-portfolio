@@ -1,13 +1,16 @@
 import { Github, Linkedin, type LucideIcon } from "lucide-react";
-import profileImage from "../img/personal-image.jpg";
+import profileImage from "../img/profile.webp";
+import alabImage from "../img/projects/alab.webp";
+import setmeappImage from "../img/projects/setmeapp.webp";
+import smalltalkImage from "../img/projects/smalltalk.webp";
+import weatherImage from "../img/projects/weather.webp";
+import { blurPlaceholders } from "../img/blur-placeholders";
 
-/** A single word in the hero headline; `accent` words get the gradient treatment. */
 export interface HeadlineWord {
   text: string;
   accent?: boolean;
 }
 
-/** The four page sections — one source of truth for ids shared by nav + sections. */
 export const SECTIONS = {
   home: "home",
   about: "about",
@@ -27,11 +30,6 @@ export interface SkillGroup {
   items: string[];
 }
 
-/**
- * A stat is either an animated count-up (`count`, optional `suffix`) or a
- * static `display` string — never both. The discriminated union makes the
- * invalid "neither / both" states unrepresentable.
- */
 export type Stat =
   | { label: string; count: number; suffix?: string }
   | { label: string; display: string };
@@ -43,6 +41,7 @@ export interface Project {
   description: string;
   tech: string;
   image: string;
+  placeholder: string;
   github: string;
 }
 
@@ -68,6 +67,7 @@ export const profile = {
   intro:
     "Based in Cebu City. I build high-end web applications with a focus on performance, aesthetics, and user experience.",
   photo: profileImage,
+  photoPlaceholder: blurPlaceholders.profile,
 } as const;
 
 export const navItems: NavItem[] = [
@@ -109,8 +109,8 @@ export const projects: Project[] = [
     description:
       "An immersive game development project built with Unity — a world crafted with C# and pure imagination.",
     tech: "C#, Unity Engine",
-    image:
-      "https://user-images.githubusercontent.com/60454465/163956138-90ba7d41-00b2-43a8-b858-dbc476233c44.png",
+    image: alabImage,
+    placeholder: blurPlaceholders.alab,
     github: "https://github.com/kitdaniellim/alab-unity-game",
   },
   {
@@ -120,8 +120,8 @@ export const projects: Project[] = [
     description:
       "A robust client-consumer appointment application designed to streamline scheduling and management.",
     tech: "React Native, React, Expo, Firebase",
-    image:
-      "https://user-images.githubusercontent.com/60454465/132158692-4a6dd6a5-42b1-4959-91ef-d19f7dd986a4.jpg",
+    image: setmeappImage,
+    placeholder: blurPlaceholders.setmeapp,
     github: "https://github.com/kitdaniellim/doc-app",
   },
   {
@@ -131,8 +131,8 @@ export const projects: Project[] = [
     description:
       "Modern interfaces for communication platforms, focusing on clean lines and intuitive user experiences.",
     tech: "Dart, Figma",
-    image:
-      "https://user-images.githubusercontent.com/60454465/182025950-10e3c168-3ced-4333-9291-6dc51767e24c.png",
+    image: smalltalkImage,
+    placeholder: blurPlaceholders.smalltalk,
     github: "https://github.com/kitdaniellim/smalltalk",
   },
   {
@@ -142,11 +142,13 @@ export const projects: Project[] = [
     description:
       "Real-time weather data visualization using modern web technologies and public APIs.",
     tech: "JavaScript, HTML, CSS",
-    image:
-      "https://user-images.githubusercontent.com/60454465/200169282-3c1cdedd-a6da-4168-b407-35fd87e5066b.png",
+    image: weatherImage,
+    placeholder: blurPlaceholders.weather,
     github: "https://github.com/kitdaniellim/weather-app",
   },
 ];
+
+export const projectImageSources: readonly string[] = projects.map((project) => project.image);
 
 export const contact = {
   email: "kitdaniellim@gmail.com",
