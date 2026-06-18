@@ -1,18 +1,23 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { Github, ArrowRight } from "lucide-react";
-import { gsap, ScrollTrigger, DESKTOP_MOTION, MOBILE_OR_REDUCED } from "../../lib/gsap";
-import { projects, SECTIONS } from "../../data/site";
+import { gsap, DESKTOP_MOTION, MOBILE_OR_REDUCED } from "../../lib/gsap";
+import { projects, projectImageSources, SECTIONS } from "../../data/site";
+import { useImagePreload } from "../../hooks/useImagePreload";
+import { Image } from "../ui/Image";
+import { MediaFrame } from "../ui/MediaFrame";
+import { Button } from "../ui/Button";
 
 const Projects = () => {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
 
+  useImagePreload(projectImageSources);
+
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
 
-      // DESKTOP: pin the section and translate the track horizontally on scroll.
       mm.add(DESKTOP_MOTION, () => {
         const el = track.current!;
         const distance = () => el.scrollWidth - window.innerWidth;
@@ -31,13 +36,10 @@ const Projects = () => {
           },
         });
 
-        // Each panel's image reveals (clip) + drifts as it crosses the viewport.
-        // `containerAnimation` lets ScrollTrigger fire inside a horizontally
-        // tweened track instead of the vertical scroll.
         gsap.utils.toArray<HTMLElement>(".project-panel").forEach((panel) => {
-          const img = panel.querySelector(".project-img");
-          if (img) {
-            gsap.from(img, {
+          const panelImage = panel.querySelector(".project-img");
+          if (panelImage) {
+            gsap.from(panelImage, {
               clipPath: "inset(0% 100% 0% 0%)",
               scale: 1.15,
               ease: "none",
@@ -51,9 +53,9 @@ const Projects = () => {
             });
           }
 
-          const rises = panel.querySelectorAll(".project-rise");
-          if (rises.length) {
-            gsap.from(rises, {
+          const risingItems = panel.querySelectorAll(".project-rise");
+          if (risingItems.length) {
+            gsap.from(risingItems, {
               y: 40,
               opacity: 0,
               stagger: 0.08,
@@ -69,7 +71,6 @@ const Projects = () => {
         });
       });
 
-      // MOBILE / reduced-motion: simple vertical fade-up cards, no pinning.
       mm.add(MOBILE_OR_REDUCED, () => {
         gsap.set(track.current, { x: 0 });
         gsap.utils.toArray<HTMLElement>(".project-panel").forEach((panel) => {
@@ -82,17 +83,6 @@ const Projects = () => {
           });
         });
       });
-
-      // External project images decode after mount and can shift layout, so
-      // refresh ScrollTrigger geometry as each one loads. (Listening on window
-      // 'load' is unreliable here — it has usually already fired by mount, and
-      // never waits for lazy/remote images anyway.)
-      const refresh = () => ScrollTrigger.refresh();
-      const imgs = gsap.utils.toArray<HTMLImageElement>(".project-img");
-      imgs.forEach((img) => {
-        if (!img.complete) img.addEventListener("load", refresh, { once: true });
-      });
-      return () => imgs.forEach((img) => img.removeEventListener("load", refresh));
     },
     { scope: root }
   );
@@ -100,7 +90,6 @@ const Projects = () => {
   return (
     <section id={SECTIONS.projects} ref={root} className="relative overflow-hidden bg-surface-2 md:h-screen">
       <div ref={track} className="flex flex-col md:h-full md:flex-row md:flex-nowrap">
-        {/* Intro panel */}
         <div className="project-panel flex shrink-0 items-center px-6 py-24 md:h-full md:w-screen md:py-0 md:pl-[8vw]">
           <div className="max-w-md">
             <p className="eyebrow mb-4">Selected Work</p>
@@ -119,14 +108,12 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Project panels */}
         {projects.map((project) => (
           <article
             key={project.id}
             className="project-panel flex shrink-0 items-center px-6 py-20 md:h-full md:w-screen md:px-[8vw] md:py-0"
           >
             <div className="grid w-full max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-16">
-              {/* Copy */}
               <div className="order-2 md:order-1">
                 <div className="project-rise mb-5 flex items-center gap-3">
                   <span className="font-display text-sm font-bold text-faint">0{project.id}</span>
@@ -142,33 +129,30 @@ const Projects = () => {
                 </p>
                 <p className="project-rise mt-4 font-mono text-sm text-muted">{project.tech}</p>
                 <div className="project-rise mt-8">
-                  <a
+                  <Button
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-ink px-6 py-3 font-semibold text-white shadow-frost transition-colors hover:bg-accent-ink"
+                    aria-label={`View ${project.title} code on GitHub (opens in a new tab)`}
                   >
                     <Github size={18} />
                     View Code
-                  </a>
+                  </Button>
                 </div>
               </div>
 
-              {/* Image */}
               <div className="project-rise order-1 md:order-2">
-                <div className="relative">
-                  <div className="rounded-2.5xl absolute -inset-2 bg-gradient-to-tr from-accent/20 to-accent-soft/10 blur-2xl" />
-                  <div className="rounded-2.5xl relative overflow-hidden border border-white/70 shadow-frost-lg">
-                    <img
-                      src={project.image}
-                      alt={`${project.title} — ${project.subtitle}`}
-                      width={1280}
-                      height={720}
-                      loading="lazy"
-                      className="project-img aspect-video w-full object-cover"
-                    />
-                  </div>
-                </div>
+                <MediaFrame>
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} — ${project.subtitle}`}
+                    width={1280}
+                    height={720}
+                    placeholder={project.placeholder}
+                    className="aspect-video w-full"
+                    imgClassName="project-img"
+                  />
+                </MediaFrame>
               </div>
             </div>
           </article>

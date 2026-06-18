@@ -4,15 +4,15 @@ import { gsap, MOTION_OK } from "../../lib/gsap";
 import { scrollToSection } from "../../lib/scroll";
 import { navItems, profile } from "../../data/site";
 import { cn } from "../../lib/utils";
+import { Button } from "../ui/Button";
 
 const Navbar = () => {
   const headerRef = useRef<HTMLElement>(null);
-  const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const [active, setActive] = useState(navItems[0].id);
   const [scrolled, setScrolled] = useState(false);
   const [indicator, setIndicator] = useState({ left: 0, width: 0, ready: false });
 
-  // One-time entrance, guarded so reduced-motion users see it instantly.
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
@@ -27,13 +27,8 @@ const Navbar = () => {
     { scope: headerRef }
   );
 
-  // Scroll-spy via live geometry. We probe a line at 45% of the viewport and
-  // pick whichever section's on-screen rect crosses it. This is pin-aware for
-  // free: GSAP pins the Projects section as position:fixed, so its live rect
-  // spans the viewport for its whole pinned scroll. A bottom-of-page guard
-  // catches the short Contact footer, whose top never reaches the probe line.
   useEffect(() => {
-    const ids = navItems.map((i) => i.id);
+    const ids = navItems.map((item) => item.id);
     let raf = 0;
     let cancelled = false;
 
@@ -48,8 +43,6 @@ const Navbar = () => {
         if (rect && rect.top <= probe && rect.bottom > probe) current = id;
       }
 
-      // Bottom guard: Lenis exposes a cached scroll limit, so we avoid reading
-      // document.scrollHeight every frame (a layout-flushing read).
       const limit =
         window.lenis?.limit ??
         document.documentElement.scrollHeight - window.innerHeight;
@@ -74,16 +67,12 @@ const Navbar = () => {
     };
   }, []);
 
-  // Slide the active-pill indicator to track the active button. Replaces
-  // framer-motion's layoutId — a CSS transition on left/width is cheaper and
-  // drops a whole animation dependency. We re-measure on resize AND once web
-  // fonts settle, since font swap changes button widths but never fires resize.
   useLayoutEffect(() => {
     let alive = true;
     const measure = () => {
       if (!alive) return;
-      const btn = btnRefs.current[active];
-      if (btn) setIndicator({ left: btn.offsetLeft, width: btn.offsetWidth, ready: true });
+      const button = buttonRefs.current[active];
+      if (button) setIndicator({ left: button.offsetLeft, width: button.offsetWidth, ready: true });
     };
     measure();
     window.addEventListener("resize", measure);
@@ -119,7 +108,6 @@ const Navbar = () => {
             scrolled && "shadow-frost-lg"
           )}
         >
-          {/* Sliding active indicator */}
           <span
             aria-hidden
             className={cn(
@@ -132,7 +120,7 @@ const Navbar = () => {
             <button
               key={item.id}
               ref={(el) => {
-                btnRefs.current[item.id] = el;
+                buttonRefs.current[item.id] = el;
               }}
               onClick={() => scrollToSection(item.id)}
               aria-current={active === item.id ? "page" : undefined}
@@ -146,12 +134,13 @@ const Navbar = () => {
           ))}
         </nav>
 
-        <button
+        <Button
+          size="sm"
           onClick={() => scrollToSection("contact")}
-          className="hidden cursor-pointer rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white shadow-frost transition-colors hover:bg-accent-ink md:block"
+          className="hidden md:inline-flex"
         >
           Let&apos;s Talk
-        </button>
+        </Button>
       </div>
     </header>
   );
