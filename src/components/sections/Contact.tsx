@@ -10,7 +10,6 @@ const Contact = () => {
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
-        // The CTA card scales + fades in as the footer enters view.
         gsap.from(".contact-card", {
           y: 60,
           opacity: 0,
@@ -35,9 +34,7 @@ const Contact = () => {
   return (
     <footer id={SECTIONS.contact} ref={root} className="bg-bg px-4 pb-12 pt-28 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        {/* CTA card */}
         <div className="contact-card relative overflow-hidden rounded-[2rem] border border-line bg-surface p-10 shadow-frost-lg sm:p-16">
-          {/* decorative glow */}
           <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/15 blur-[100px]" />
           <div className="pointer-events-none absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-accent-soft/15 blur-[100px]" />
 
@@ -83,7 +80,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Footer bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 sm:flex-row">
           <p className="text-sm text-muted">
             © {new Date().getFullYear()} {profile.name}. All rights reserved.
@@ -95,7 +91,7 @@ const Contact = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${label} profile`}
+                aria-label={`${label} profile (opens in a new tab)`}
                 className="rounded-full border border-line bg-surface p-3 text-muted shadow-frost transition-colors hover:border-accent/40 hover:text-accent-ink"
               >
                 <Icon size={20} />

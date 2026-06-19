@@ -9,7 +9,6 @@ const About = () => {
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
-        // Heading clip-reveal as the section enters.
         gsap.from(".about-head", {
           yPercent: 110,
           duration: 0.9,
@@ -17,7 +16,6 @@ const About = () => {
           scrollTrigger: { trigger: root.current, start: "top 75%" },
         });
 
-        // Bio paragraphs revealed progressively, tied to scroll position.
         gsap.from(".about-line", {
           y: 28,
           opacity: 0,
@@ -31,24 +29,22 @@ const About = () => {
           },
         });
 
-        // Each stat with a numeric target counts up the first time it's seen.
         const section = root.current;
-        section?.querySelectorAll<HTMLElement>("[data-counter]").forEach((el) => {
-          const target = Number(el.dataset.counter);
+        section?.querySelectorAll<HTMLElement>("[data-counter]").forEach((counterEl) => {
+          const target = Number(counterEl.dataset.counter);
           if (Number.isNaN(target)) return;
-          const obj = { val: 0 };
-          gsap.to(obj, {
-            val: target,
+          const counter = { value: 0 };
+          gsap.to(counter, {
+            value: target,
             duration: 1.6,
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            scrollTrigger: { trigger: counterEl, start: "top 85%", once: true },
             onUpdate: () => {
-              el.textContent = Math.round(obj.val).toString();
+              counterEl.textContent = Math.round(counter.value).toString();
             },
           });
         });
 
-        // Skill chips draw in with a stagger.
         gsap.from(".skill-chip", {
           y: 16,
           opacity: 0,
@@ -66,7 +62,6 @@ const About = () => {
   return (
     <section id={SECTIONS.about} ref={root} className="relative px-4 py-28 sm:px-6">
       <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-        {/* Left: story */}
         <div>
           <p className="eyebrow mb-4">About Me</p>
           <h2 className="overflow-hidden">
@@ -78,14 +73,13 @@ const About = () => {
           </h2>
 
           <div className="about-copy mt-10 space-y-6 text-lg leading-relaxed text-muted">
-            {about.paragraphs.map((para, i) => (
-              <p key={i} className="about-line">
-                {para}
+            {about.paragraphs.map((paragraph, index) => (
+              <p key={index} className="about-line">
+                {paragraph}
               </p>
             ))}
           </div>
 
-          {/* Stats */}
           <div className="mt-12 flex flex-wrap gap-10 border-t border-line pt-10">
             {about.stats.map((stat) => (
               <div key={stat.label}>
@@ -107,7 +101,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* Right: skills */}
         <div className="skill-grid flex flex-col gap-5">
           {about.skills.map((group) => (
             <div

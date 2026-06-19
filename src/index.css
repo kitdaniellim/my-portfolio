@@ -4,7 +4,6 @@
 
 @layer base {
   html {
-    /* Lenis drives smooth scroll; keep native fallback off so anchors don't fight it */
     scroll-behavior: auto;
   }
 
@@ -24,13 +23,10 @@
     color: #0F172A;
   }
 
-  /* Keyboard-only focus ring on every interactive element (mouse clicks stay
-     ring-free thanks to :focus-visible). */
   :where(a, button, [tabindex]):focus-visible {
     @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-bg rounded-full;
   }
 
-  /* Lenis recommended styles */
   html.lenis,
   html.lenis body {
     height: auto;
@@ -44,23 +40,15 @@
 }
 
 @layer components {
-  /* Frosted-glass surface for the fixed navbar. NOTE: deliberately NO
-     backdrop-blur — a backdrop-filter on a fixed element re-samples and
-     re-blurs everything scrolling behind it every frame, which is the single
-     biggest scroll-jank source. A high-opacity solid white reads as "frosted"
-     without that per-frame cost. */
   .frost {
     @apply bg-white/85 border border-white/70 shadow-frost;
   }
 
-  /* Reusable section eyebrow label */
   .eyebrow {
     @apply text-xs font-semibold tracking-[0.2em] text-accent-ink uppercase;
   }
 }
 
-/* Respect users who prefer reduced motion: neutralize transforms/animations.
-   GSAP timelines are additionally guarded with gsap.matchMedia in JS. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
