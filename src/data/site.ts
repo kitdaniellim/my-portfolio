@@ -114,7 +114,6 @@ export const experience = {
   eyebrow: "Experience · 2020 — Now",
   headingLead: "Six years,",
   headingSerif: "one through-line.",
-  lead: "Every role added a layer — mobile, enterprise, full-stack, going international, SaaS at scale. Scroll to trace the line.",
   items: [
     {
       year: "2020",
@@ -233,8 +232,6 @@ export const contact = {
   headingLead: "Let's build something",
   headingTrailPrefix: "that ",
   headingTrailSerif: "matters.",
-  blurb:
-    "Open to roles and collaborations where software gets to do real work. If that's you, it'll just make sense.",
   email: "kitdaniellim@gmail.com",
   phone: { display: "0932 236 8116", href: "tel:+639322368116" },
   locationLabel: "Lahug, Cebu City, PH",

@@ -92,9 +92,6 @@ const Experience = () => {
             <br />
             <span className="serif">{experience.headingSerif}</span>
           </h2>
-          <p className="mx-auto mt-[22px] max-w-[34em] text-[18px] leading-[1.6] text-muted">
-            {experience.lead}
-          </p>
         </div>
 
         <div className="tl">

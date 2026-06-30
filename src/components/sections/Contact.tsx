@@ -38,15 +38,12 @@ const Contact = () => {
           <span aria-hidden className="eyebrow-dash" />
           {contact.eyebrow}
         </p>
-        <h2 className="contact-line mx-auto mb-[22px] text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.025em] text-cream">
+        <h2 className="contact-line mx-auto mb-10 text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.025em] text-cream">
           {contact.headingLead}
           <br />
           {contact.headingTrailPrefix}
           <span className="serif">{contact.headingTrailSerif}</span>
         </h2>
-        <p className="contact-line mx-auto mb-[38px] max-w-[30em] text-[clamp(16px,1.4vw,19px)] leading-[1.66] text-muted">
-          {contact.blurb}
-        </p>
 
         <div className="contact-line">
           <Button size="lg" href={`mailto:${contact.email}`}>
