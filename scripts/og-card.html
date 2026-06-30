@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      Source template for the 1200x630 Open Graph share card (public/og.png).
+      To regenerate: open this file at a 1200x630 viewport and screenshot the body.
+      Uses the live Google Fonts so the card matches the site's typography exactly.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@500;600;700&family=Instrument+Serif:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+      }
+      body {
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(900px 600px at 82% 16%, rgba(232, 166, 74, 0.18), transparent 60%),
+          linear-gradient(160deg, #100d09, #15110b);
+        color: #cfc5b4;
+        font-family: "Hanken Grotesk", system-ui, sans-serif;
+        padding: 78px 84px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        -webkit-font-smoothing: antialiased;
+      }
+      body::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        background: linear-gradient(180deg, #e8a64a, #d4923a);
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 40px;
+        letter-spacing: -0.02em;
+        color: #f4ede1;
+      }
+      .brand span {
+        color: #e8a64a;
+      }
+      .site {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: #a0937f;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #e8a64a;
+        margin-bottom: 24px;
+      }
+      .eyebrow i {
+        width: 40px;
+        height: 2px;
+        border-radius: 2px;
+        background: #e8a64a;
+        display: inline-block;
+      }
+      h1 {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-weight: 800;
+        font-size: 104px;
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        color: #f4ede1;
+      }
+      .serif {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 62px;
+        letter-spacing: 0;
+        color: #e8a64a;
+        margin-top: 12px;
+      }
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 24px;
+        font-weight: 600;
+        color: #cfc5b4;
+      }
+      .meta .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #a0937f;
+        display: inline-block;
+      }
+      .meta .muted {
+        color: #a0937f;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div class="brand">KDL<span>.</span></div>
+      <div class="site">kitdaniellim.dev</div>
+    </div>
+    <div>
+      <span class="eyebrow"><i></i>Full-Stack Developer</span>
+      <h1>Kit Daniel Lim</h1>
+      <div class="serif">Building for the world.</div>
+    </div>
+    <div class="meta">
+      <span>Cebu City, Philippines</span>
+      <span class="dot"></span>
+      <span class="muted">6+ years · React · Node · TypeScript · React Native</span>
+    </div>
+  </body>
+</html>
