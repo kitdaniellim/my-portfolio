@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="20%" r="110%">
+      <stop offset="0%" stop-color="#3a2a1a"></stop>
+      <stop offset="70%" stop-color="#161210"></stop>
+      <stop offset="100%" stop-color="#161210"></stop>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"></rect>
+  <text x="32" y="34" text-anchor="middle" dominant-baseline="central" font-family="&#39;Space Grotesk&#39;, system-ui, sans-serif" font-weight="700" font-size="19" letter-spacing="-0.5">
+    <tspan fill="#f4ece0">KDL</tspan><tspan fill="#e3a248">.</tspan>
+  </text>
+</svg>
