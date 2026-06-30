@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { ArrowDown } from "lucide-react";
 import { gsap, MOTION_OK, MOTION_REDUCED } from "../../lib/gsap";
 import { scrollToSection } from "../../lib/scroll";
 import { profile, SECTIONS } from "../../data/site";
+import { cn } from "../../lib/utils";
 import { Image } from "../ui/Image";
 import { MediaFrame } from "../ui/MediaFrame";
 import { Button } from "../ui/Button";
@@ -18,10 +18,10 @@ const Hero = () => {
       mm.add(MOTION_OK, () => {
         gsap
           .timeline({ defaults: { ease: "power3.out" } })
-          .from(".hero-word > span", { yPercent: 120, duration: 0.9, stagger: 0.08 })
-          .from(".hero-eyebrow", { y: 16, opacity: 0, duration: 0.6 }, 0.1)
-          .from(".hero-fade", { y: 24, opacity: 0, duration: 0.7, stagger: 0.12 }, "-=0.5")
-          .from(".hero-photo", { y: 40, opacity: 0, scale: 0.96, duration: 1 }, "-=0.8")
+          .from(".hero-eyebrow", { y: 18, opacity: 0, duration: 0.6 })
+          .from(".hero-line", { y: 28, opacity: 0, duration: 0.85, stagger: 0.07 }, "-=0.35")
+          .from(".hero-fade", { y: 24, opacity: 0, duration: 0.7, stagger: 0.12 }, "-=0.55")
+          .from(".hero-photo", { y: 40, opacity: 0, scale: 0.96, duration: 1 }, "-=0.85")
           .from(".hero-cue", { opacity: 0, duration: 0.6 }, "-=0.2");
 
         gsap
@@ -29,12 +29,11 @@ const Hero = () => {
             scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: 1 },
             defaults: { ease: "none", force3D: true },
           })
-          .to(".hero-grid", { yPercent: 16 }, 0)
-          .to(".hero-content", { y: -50, autoAlpha: 0.25 }, 0);
+          .to(".hero-content", { y: -50, autoAlpha: 0.2 }, 0);
       });
 
       mm.add(MOTION_REDUCED, () => {
-        gsap.set([".hero-word > span", ".hero-eyebrow", ".hero-fade", ".hero-photo", ".hero-cue"], {
+        gsap.set([".hero-eyebrow", ".hero-line", ".hero-fade", ".hero-photo", ".hero-cue"], {
           clearProps: "all",
         });
       });
@@ -46,74 +45,74 @@ const Hero = () => {
     <section
       id={SECTIONS.home}
       ref={root}
-      className="relative flex min-h-screen items-center overflow-hidden pb-20 pt-28"
+      aria-label="Introduction"
+      className="relative flex min-h-screen items-center overflow-hidden bg-hero-glow pb-20 pt-32"
     >
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="hero-grid absolute inset-0 bg-frost-grid [background-size:48px_48px] opacity-70 will-change-transform [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
-        <div className="absolute -top-24 left-[12%] h-[26rem] w-[26rem] rounded-full bg-accent/20 blur-[80px]" />
-        <div className="absolute bottom-[-6rem] right-[8%] h-[22rem] w-[22rem] rounded-full bg-accent-soft/25 blur-[80px]" />
-      </div>
-
-      <div className="hero-content mx-auto grid w-full max-w-6xl items-center gap-12 px-4 will-change-transform sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="hero-content mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 will-change-transform sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-[60px]">
         <div className="order-2 lg:order-1">
-          <p className="hero-eyebrow eyebrow mb-5 flex items-center gap-2">
-            <span className="inline-block h-px w-8 bg-accent" />
+          <p className="hero-eyebrow eyebrow mb-[22px]">
+            <span aria-hidden className="eyebrow-dash" />
             {profile.greeting}
           </p>
 
-          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          <h1 className="mb-[26px] text-[clamp(46px,6.4vw,86px)] font-extrabold leading-[0.96] tracking-[-0.025em] text-[#7a7c83]">
             {profile.headline.map((word, index) => (
-              <span key={index} className="hero-word inline-block overflow-hidden align-bottom">
-                <span
-                  className={
-                    word.accent
-                      ? "inline-block bg-gradient-to-r from-accent-ink to-accent bg-clip-text text-transparent"
-                      : "inline-block"
-                  }
-                >
-                  {word.text}
-                </span>
-                {index < profile.headline.length - 1 && " "}
+              <span
+                key={index}
+                className={cn(
+                  "hero-line mr-[0.22em] inline-block last:mr-0",
+                  word.accent && "text-accent"
+                )}
+              >
+                {word.text}
               </span>
             ))}
           </h1>
 
-          <p className="hero-fade mt-6 max-w-lg text-lg leading-relaxed text-muted">
+          <p className="hero-fade mb-9 max-w-[30em] text-[clamp(16px,1.4vw,19px)] leading-[1.65] text-muted">
             {profile.intro}
           </p>
 
-          <div className="hero-fade mt-9 flex flex-wrap gap-3">
-            <Button onClick={() => scrollToSection("projects")}>View Projects</Button>
-            <Button variant="secondary" onClick={() => scrollToSection("contact")}>
+          <div className="hero-fade flex flex-wrap gap-3.5">
+            <Button size="lg" onClick={() => scrollToSection("projects")}>
+              View Projects
+            </Button>
+            <Button size="lg" variant="secondary" onClick={() => scrollToSection("contact")}>
               Contact Me
             </Button>
           </div>
         </div>
 
-        <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
-          <MediaFrame
-            className="hero-photo w-full max-w-sm"
-            glowClassName="-inset-3 from-accent/30 to-accent-soft/20"
-          >
+        <div className="order-1 flex justify-center lg:order-2">
+          <MediaFrame className="hero-photo w-[min(420px,80vw)]">
             <Image
               src={profile.photo}
-              alt={`Portrait of ${profile.name}`}
+              alt={`Kit Daniel Lim — full-stack developer`}
               width={800}
-              height={1000}
+              height={896}
               placeholder={profile.photoPlaceholder}
               priority
-              className="aspect-[4/5] w-full"
+              className="aspect-[1/1.12] w-full"
+              imgClassName="object-[50%_22%]"
             />
           </MediaFrame>
         </div>
       </div>
 
-      <div className="hero-cue absolute bottom-8 left-1/2 -translate-x-1/2 text-faint">
-        <span className="flex flex-col items-center gap-2 text-xs font-medium uppercase tracking-widest">
-          Scroll
-          <ArrowDown size={18} className="animate-bounce" />
+      <a
+        href={`#${SECTIONS.about}`}
+        aria-label="Scroll to About"
+        onClick={(event) => {
+          event.preventDefault();
+          scrollToSection(SECTIONS.about);
+        }}
+        className="hero-cue absolute bottom-[30px] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-muted no-underline"
+      >
+        Scroll
+        <span aria-hidden className="animate-bob text-[15px]">
+          ↓
         </span>
-      </div>
+      </a>
     </section>
   );
 };

@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { Mail, Phone, ArrowUpRight } from "lucide-react";
 import { gsap, MOTION_OK } from "../../lib/gsap";
-import { contact, socials, profile, SECTIONS } from "../../data/site";
+import { contact, SECTIONS } from "../../data/site";
+import { Button } from "../ui/Button";
 
 const Contact = () => {
   const root = useRef<HTMLElement>(null);
@@ -10,97 +10,93 @@ const Contact = () => {
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
-        gsap.from(".contact-card", {
-          y: 60,
-          opacity: 0,
-          scale: 0.95,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: root.current, start: "top 80%" },
-        });
-        gsap.from(".contact-line", {
-          y: 20,
-          opacity: 0,
-          stagger: 0.12,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: { trigger: ".contact-card", start: "top 70%" },
-        });
+        gsap.fromTo(
+          ".contact-line",
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.12,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: { trigger: root.current, start: "top 78%" },
+          }
+        );
       });
     },
     { scope: root }
   );
 
   return (
-    <footer id={SECTIONS.contact} ref={root} className="bg-bg px-4 pb-12 pt-28 sm:px-6">
-      <div className="mx-auto max-w-6xl">
-        <div className="contact-card relative overflow-hidden rounded-[2rem] border border-line bg-surface p-10 shadow-frost-lg sm:p-16">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/15 blur-[100px]" />
-          <div className="pointer-events-none absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-accent-soft/15 blur-[100px]" />
+    <section
+      id={SECTIONS.contact}
+      ref={root}
+      aria-label="Get in touch"
+      className="bg-contact-fade px-5 pb-[90px] pt-32 sm:px-8"
+    >
+      <div className="mx-auto max-w-[760px] text-center">
+        <p className="contact-line eyebrow justify-center">
+          <span aria-hidden className="eyebrow-dash" />
+          {contact.eyebrow}
+        </p>
+        <h2 className="contact-line mx-auto mb-[22px] text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.022em] text-[#7a7c83]">
+          {contact.headingLead}
+          <br />
+          {contact.headingTrailPrefix}
+          <span className="text-accent">{contact.headingTrailAccent}</span>
+        </h2>
+        <p className="contact-line mx-auto mb-[38px] max-w-[30em] text-[clamp(16px,1.4vw,19px)] leading-[1.65] text-muted">
+          {contact.blurb}
+        </p>
 
-          <div className="relative grid gap-12 md:grid-cols-2 md:items-center">
-            <div>
-              <p className="contact-line eyebrow mb-4">Get in touch</p>
-              <h2 className="contact-line text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
-                Let&apos;s work
-                <br />
-                together.
-              </h2>
-              <p className="contact-line mt-5 max-w-md text-lg text-muted">{contact.blurb}</p>
-            </div>
+        <div className="contact-line">
+          <Button size="lg" href={`mailto:${contact.email}`}>
+            {contact.email}
+          </Button>
+        </div>
 
-            <div className="flex flex-col gap-4">
-              <a
-                href={`mailto:${contact.email}`}
-                className="contact-line group flex items-center justify-between gap-4 rounded-2xl border border-line bg-surface-2 px-6 py-5 transition-colors hover:border-accent/40 hover:bg-white"
-              >
-                <span className="flex items-center gap-4 text-lg font-semibold text-ink sm:text-xl">
-                  <Mail className="text-accent-ink" size={22} />
-                  {contact.email}
-                </span>
-                <ArrowUpRight
-                  className="text-faint transition-colors group-hover:text-accent-ink"
-                  size={20}
-                />
-              </a>
+        <dl className="contact-line mt-[54px] flex flex-wrap justify-center gap-x-[54px] gap-y-8 border-t border-line pt-10">
+          <div className="flex flex-col gap-1.5">
+            <dt className="text-xs font-bold uppercase tracking-[0.14em] text-accent2">Phone</dt>
+            <dd className="text-base font-semibold text-ink">
               <a
                 href={contact.phone.href}
-                className="contact-line group flex items-center justify-between gap-4 rounded-2xl border border-line bg-surface-2 px-6 py-5 transition-colors hover:border-accent/40 hover:bg-white"
+                className="border-b border-line transition-colors hover:border-white"
               >
-                <span className="flex items-center gap-4 text-lg font-semibold text-ink sm:text-xl">
-                  <Phone className="text-accent-ink" size={22} />
-                  {contact.phone.display}
+                {contact.phone.display}
+              </a>
+            </dd>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <dt className="text-xs font-bold uppercase tracking-[0.14em] text-accent2">Location</dt>
+            <dd className="text-base font-semibold text-ink">{contact.locationLabel}</dd>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <dt className="text-xs font-bold uppercase tracking-[0.14em] text-accent2">Links</dt>
+            <dd className="flex items-center gap-2 text-base font-semibold text-ink">
+              {contact.links.map((link, index) => (
+                <span key={link.label} className="flex items-center gap-2">
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${link.label} (opens in a new tab)`}
+                    className="border-b border-line transition-colors hover:border-white"
+                  >
+                    {link.label}
+                  </a>
+                  {index < contact.links.length - 1 && (
+                    <span aria-hidden className="text-muted">
+                      ·
+                    </span>
+                  )}
                 </span>
-                <ArrowUpRight
-                  className="text-faint transition-colors group-hover:text-accent-ink"
-                  size={20}
-                />
-              </a>
-            </div>
+              ))}
+            </dd>
           </div>
-        </div>
-
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 sm:flex-row">
-          <p className="text-sm text-muted">
-            © {new Date().getFullYear()} {profile.name}. All rights reserved.
-          </p>
-          <div className="flex gap-2">
-            {socials.map(({ label, href, icon: Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${label} profile (opens in a new tab)`}
-                className="rounded-full border border-line bg-surface p-3 text-muted shadow-frost transition-colors hover:border-accent/40 hover:text-accent-ink"
-              >
-                <Icon size={20} />
-              </a>
-            ))}
-          </div>
-        </div>
+        </dl>
       </div>
-    </footer>
+    </section>
   );
 };
 

@@ -1,17 +1,15 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, MOTION_OK } from "../../lib/gsap";
 import { scrollToSection } from "../../lib/scroll";
-import { navItems, profile } from "../../data/site";
+import { navItems, profile, SECTIONS } from "../../data/site";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/Button";
 
 const Navbar = () => {
   const headerRef = useRef<HTMLElement>(null);
-  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const [active, setActive] = useState(navItems[0].id);
   const [scrolled, setScrolled] = useState(false);
-  const [indicator, setIndicator] = useState({ left: 0, width: 0, ready: false });
 
   useGSAP(
     () => {
@@ -44,8 +42,7 @@ const Navbar = () => {
       }
 
       const limit =
-        window.lenis?.limit ??
-        document.documentElement.scrollHeight - window.innerHeight;
+        window.lenis?.limit ?? document.documentElement.scrollHeight - window.innerHeight;
       if (window.scrollY >= limit - 2) current = ids[ids.length - 1];
 
       setActive((prev) => (prev === current ? prev : current));
@@ -67,66 +64,43 @@ const Navbar = () => {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    let alive = true;
-    const measure = () => {
-      if (!alive) return;
-      const button = buttonRefs.current[active];
-      if (button) setIndicator({ left: button.offsetLeft, width: button.offsetWidth, ready: true });
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    document.fonts?.ready.then(measure);
-    return () => {
-      alive = false;
-      window.removeEventListener("resize", measure);
-    };
-  }, [active]);
+  const onDark = active === SECTIONS.experience;
 
   return (
     <header
       ref={headerRef}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[padding] duration-300",
-        scrolled ? "py-3" : "py-5"
+        "fixed inset-x-0 top-0 z-[60] transition-[padding] duration-300",
+        scrolled ? "py-3" : "py-[18px]"
       )}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex max-w-[1180px] items-center justify-between px-5 sm:px-8 lg:px-[46px]">
         <button
           onClick={() => scrollToSection("home")}
-          className="cursor-pointer text-lg font-extrabold tracking-tight text-ink"
+          className="cursor-pointer font-display text-[23px] font-extrabold tracking-tight text-ink transition-colors"
           aria-label="Back to top"
         >
           {profile.initials}
-          <span className="text-accent-ink">.</span>
+          <span className="text-accent">.</span>
         </button>
 
         <nav
           aria-label="Primary"
           className={cn(
-            "frost relative hidden items-center gap-1 rounded-full p-1 transition-shadow md:flex",
-            scrolled && "shadow-frost-lg"
+            "hidden items-center gap-0.5 rounded-full border p-1.5 shadow-pill backdrop-blur-md transition-colors md:flex",
+            onDark ? "border-white/15 bg-white/[0.07]" : "border-white/10 bg-white/5"
           )}
         >
-          <span
-            aria-hidden
-            className={cn(
-              "absolute inset-y-1 rounded-full bg-accent/10 ring-1 ring-accent/20 transition-all duration-300 ease-out",
-              indicator.ready ? "opacity-100" : "opacity-0"
-            )}
-            style={{ left: indicator.left, width: indicator.width }}
-          />
           {navItems.map((item) => (
             <button
               key={item.id}
-              ref={(el) => {
-                buttonRefs.current[item.id] = el;
-              }}
               onClick={() => scrollToSection(item.id)}
               aria-current={active === item.id ? "page" : undefined}
               className={cn(
-                "relative z-10 cursor-pointer rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                active === item.id ? "text-ink" : "text-muted hover:text-ink"
+                "cursor-pointer rounded-full px-[19px] py-[9px] text-sm font-semibold transition-colors",
+                active === item.id
+                  ? "bg-white/10 text-white"
+                  : "text-[#9a9da4] hover:text-ink"
               )}
             >
               {item.label}

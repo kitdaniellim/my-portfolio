@@ -2,19 +2,22 @@ import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "../../lib/utils";
 
 type ButtonVariant = "primary" | "secondary";
-type ButtonSize = "sm" | "md";
+type ButtonSize = "sm" | "md" | "lg";
 
 const baseClasses =
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-colors";
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 will-change-transform";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-ink text-white shadow-frost hover:bg-accent-ink",
-  secondary: "border border-line bg-white text-ink hover:border-accent/40 hover:bg-surface-2",
+  primary:
+    "bg-white text-[#0a0a0c] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(255,255,255,0.18)]",
+  secondary:
+    "border border-line bg-transparent text-ink hover:-translate-y-0.5 hover:border-white",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: "px-5 py-2 text-sm",
-  md: "px-7 py-3",
+  sm: "px-[23px] py-[11px] text-sm",
+  md: "px-7 py-3 text-[15px]",
+  lg: "px-[34px] py-4 text-base",
 };
 
 interface BaseProps {
