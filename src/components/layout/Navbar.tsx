@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, MOTION_OK } from "../../lib/gsap";
 import { scrollToSection } from "../../lib/scroll";
-import { navItems, profile, SECTIONS } from "../../data/site";
+import { navItems, profile } from "../../data/site";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/Button";
 
@@ -64,8 +64,6 @@ const Navbar = () => {
     };
   }, []);
 
-  const onDark = active === SECTIONS.experience;
-
   return (
     <header
       ref={headerRef}
@@ -77,19 +75,16 @@ const Navbar = () => {
       <div className="mx-auto flex max-w-[1180px] items-center justify-between px-5 sm:px-8 lg:px-[46px]">
         <button
           onClick={() => scrollToSection("home")}
-          className="cursor-pointer font-display text-[23px] font-extrabold tracking-tight text-ink transition-colors"
+          className="cursor-pointer font-display text-[23px] font-extrabold tracking-tight text-cream"
           aria-label="Back to top"
         >
           {profile.initials}
-          <span className="text-accent">.</span>
+          <span className="text-amber">.</span>
         </button>
 
         <nav
           aria-label="Primary"
-          className={cn(
-            "hidden items-center gap-0.5 rounded-full border p-1.5 shadow-pill backdrop-blur-md transition-colors md:flex",
-            onDark ? "border-white/15 bg-white/[0.07]" : "border-white/10 bg-white/5"
-          )}
+          className="hidden items-center gap-0.5 rounded-full border border-white/[0.08] bg-white/5 p-1.5 backdrop-blur-md md:flex"
         >
           {navItems.map((item) => (
             <button
@@ -99,8 +94,8 @@ const Navbar = () => {
               className={cn(
                 "cursor-pointer rounded-full px-[19px] py-[9px] text-sm font-semibold transition-colors",
                 active === item.id
-                  ? "bg-white/10 text-white"
-                  : "text-[#9a9da4] hover:text-ink"
+                  ? "bg-amber text-[#1a1407]"
+                  : "text-[#b6ab98] hover:text-cream"
               )}
             >
               {item.label}
@@ -109,6 +104,7 @@ const Navbar = () => {
         </nav>
 
         <Button
+          variant="cream"
           size="sm"
           onClick={() => scrollToSection("contact")}
           className="hidden md:inline-flex"

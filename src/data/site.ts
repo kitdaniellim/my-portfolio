@@ -3,7 +3,7 @@ import { blurPlaceholders } from "../img/blur-placeholders";
 
 export interface HeadlineWord {
   text: string;
-  accent?: boolean;
+  serif?: boolean;
 }
 
 export const SECTIONS = {
@@ -31,10 +31,7 @@ export type Stat =
   | { label: string; display: string };
 
 export interface ExperienceItem {
-  idx: string;
-  logo: string;
   year: string;
-  duration: string;
   role: string;
   company: string;
   place: string;
@@ -66,8 +63,8 @@ export const profile = {
   greeting: "Hello, I'm Kit Daniel Lim",
   headline: [
     { text: "Crafting" },
-    { text: "Digital", accent: true },
-    { text: "Experiences", accent: true },
+    { text: "digital" },
+    { text: "experiences", serif: true },
     { text: "that" },
     { text: "matter." },
   ] satisfies HeadlineWord[],
@@ -87,10 +84,10 @@ export const navItems: NavItem[] = [
 
 export const about = {
   headingLines: ["From Cebu City,", "Philippines."],
-  headingMuted: "At home everywhere.",
+  headingSerif: "Building for the world.",
   paragraphs: [
-    "For me, coding is more than writing lines — it's about crafting solutions. I'm drawn to projects of every size, especially the ones that spark creativity and demand a fresh approach or the latest tech.",
-    "With over six years of software development across mobile, enterprise, full-stack and SaaS, I'm comfortable on both sides of the stack. I thrive under pressure and care that what I build doesn't just work — it means something.",
+    "To me, code is a craft, not just syntax — it's how a real problem becomes a clean solution. I'm drawn to work of every scale, especially the projects that demand curiosity, a fresh approach, and the willingness to learn something new fast.",
+    "Across six-plus years I've shipped for mobile, enterprise, full-stack and SaaS teams — local and international — and I'm at home on both sides of the stack. I communicate clearly, stay steady under pressure, and care that what I build doesn't just work, but actually means something to the people who use it.",
   ],
   stats: [
     { count: 6, suffix: "+", label: "Years of experience" },
@@ -115,14 +112,12 @@ export const about = {
 
 export const experience = {
   eyebrow: "Experience · 2020 — Now",
-  headingLines: ["Six years,", "one through-line."],
+  headingLead: "Six years,",
+  headingSerif: "one through-line.",
   lead: "Every role added a layer — mobile, enterprise, full-stack, going international, SaaS at scale. Scroll to trace the line.",
   items: [
     {
-      idx: "01",
-      logo: "DE",
       year: "2020",
-      duration: "May 2020 — 2021",
       role: "Frontend Mobile App Developer",
       company: "Doctors Epic",
       place: "Cebu City",
@@ -133,10 +128,7 @@ export const experience = {
       side: "l",
     },
     {
-      idx: "02",
-      logo: "RC",
       year: "2021",
-      duration: "6 months",
       role: "Software Developer Intern",
       company: "ROCOCO Global Technologies",
       place: "Cebu City",
@@ -146,10 +138,7 @@ export const experience = {
       side: "r",
     },
     {
-      idx: "03",
-      logo: "BP",
       year: "2022",
-      duration: "2022",
       role: "Full-Stack Web Developer",
       company: "BPOSeats",
       place: "Cebu City",
@@ -159,10 +148,7 @@ export const experience = {
       side: "l",
     },
     {
-      idx: "04",
-      logo: "GO",
       year: "2022",
-      duration: "2022 — 2023",
       role: "Software Engineer",
       company: "GOLOG",
       place: "Malaysia",
@@ -172,10 +158,7 @@ export const experience = {
       side: "r",
     },
     {
-      idx: "05",
-      logo: "IN",
       year: "2023",
-      duration: "2+ years",
       role: "Front End Developer",
       company: "Inchcape Digital Delivery Center",
       place: "Cebu City",
@@ -185,10 +168,7 @@ export const experience = {
       side: "l",
     },
     {
-      idx: "06",
-      logo: "H3",
       year: "2025",
-      duration: "Present",
       role: "Tech Support Specialist & Developer",
       company: "Habits365Greek, LLC",
       place: "Remote",
@@ -252,7 +232,7 @@ export const contact = {
   eyebrow: "Get in touch",
   headingLead: "Let's build something",
   headingTrailPrefix: "that ",
-  headingTrailAccent: "matters.",
+  headingTrailSerif: "matters.",
   blurb:
     "Open to roles and collaborations where software gets to do real work. If that's you, it'll just make sense.",
   email: "kitdaniellim@gmail.com",

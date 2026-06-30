@@ -7,7 +7,12 @@ interface MediaFrameProps {
 }
 
 export const MediaFrame = ({ children, className }: MediaFrameProps) => (
-  <div className={cn("relative overflow-hidden rounded-[26px] shadow-photo", className)}>
+  <div
+    className={cn(
+      "relative overflow-hidden rounded-[20px] border border-[rgba(232,166,74,0.42)] shadow-photo",
+      className
+    )}
+  >
     {children}
   </div>
 );

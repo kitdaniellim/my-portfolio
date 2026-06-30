@@ -6,44 +6,42 @@ export default {
       colors: {
         bg: "var(--bg)",
         bg2: "var(--bg2)",
-        card: "var(--card)",
-        dark: "var(--dark)",
-        dark2: "var(--dark2)",
-        ink: "var(--ink)",
+        cream: "var(--cream)",
+        fg: "var(--text)",
         muted: "var(--muted)",
-        faint: "var(--faint)",
-        accent: "var(--accent)",
-        accent2: "var(--accent2)",
-        chipink: "var(--chipink)",
+        amber: "var(--amber)",
+        amber2: "var(--amber2)",
+        panel: "var(--panel)",
+        panelb: "var(--panelb)",
+        chip: "var(--chip)",
+        chipt: "var(--chipt)",
         line: "var(--line)",
       },
       fontFamily: {
         display: ['"Bricolage Grotesque"', "ui-sans-serif", "system-ui", "sans-serif"],
         sans: ['"Hanken Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ['"Instrument Serif"', "ui-serif", "Georgia", "serif"],
       },
       boxShadow: {
-        pill: "0 10px 30px rgba(0,0,0,0.4)",
-        card: "0 16px 40px rgba(0,0,0,0.4)",
-        "card-lg": "0 24px 60px rgba(0,0,0,0.5)",
-        proj: "0 16px 44px rgba(0,0,0,0.4)",
-        "proj-hover": "0 26px 60px rgba(0,0,0,0.55)",
-        photo:
-          "0 0 0 1px rgba(255,255,255,0.1), 0 36px 80px rgba(0,0,0,0.6), 0 0 90px rgba(255,255,255,0.04)",
+        photo: "0 30px 80px rgba(0,0,0,0.55), 0 0 90px rgba(232,166,74,0.16)",
+        "btn-amber": "0 14px 34px rgba(232,166,74,0.34)",
+        "btn-cream": "0 12px 26px rgba(0,0,0,0.4)",
+        proj: "0 26px 60px rgba(0,0,0,0.4)",
+        gh: "0 26px 60px rgba(232,166,74,0.4)",
       },
       backgroundImage: {
         "hero-glow":
-          "radial-gradient(1100px 700px at 76% 28%, rgba(255,255,255,0.055), transparent 60%), linear-gradient(180deg, #08080a, #0c0c0f)",
+          "radial-gradient(1150px 680px at 77% 32%, rgba(232,166,74,0.14), transparent 58%), linear-gradient(180deg, #100d09, #15110b)",
         "exp-glow":
-          "radial-gradient(900px 600px at 80% 8%, rgba(255,255,255,0.045), transparent 55%), linear-gradient(180deg, #0a0a0d, #0e0e12)",
-        "contact-fade": "linear-gradient(180deg, #0d0d10, #08080a)",
-      },
-      borderRadius: {
-        "2.5xl": "1.375rem",
+          "radial-gradient(900px 600px at 80% 6%, rgba(232,166,74,0.12), transparent 56%), linear-gradient(180deg, #15110b, #100d09)",
+        "contact-glow":
+          "radial-gradient(760px 460px at 50% 30%, rgba(232,166,74,0.12), transparent 60%), linear-gradient(180deg, #100d09, #15110b)",
+        "gh-amber": "linear-gradient(158deg, #e8a64a, #d4923a)",
       },
       keyframes: {
         rise: {
-          from: { transform: "translateY(28px)", opacity: "0" },
-          to: { transform: "none", opacity: "1" },
+          from: { transform: "translateY(28px)" },
+          to: { transform: "none" },
         },
         bob: {
           "0%, 100%": { transform: "translateY(0)" },

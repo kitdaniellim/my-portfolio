@@ -1,17 +1,19 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "../../lib/utils";
 
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "amber" | "cream" | "outline";
 type ButtonSize = "sm" | "md" | "lg";
 
 const baseClasses =
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 will-change-transform";
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition-all duration-200 will-change-transform";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    "bg-white text-[#0a0a0c] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(255,255,255,0.18)]",
-  secondary:
-    "border border-line bg-transparent text-ink hover:-translate-y-0.5 hover:border-white",
+  amber:
+    "bg-amber font-bold text-[#1a1407] hover:-translate-y-0.5 hover:shadow-btn-amber",
+  cream:
+    "bg-cream font-semibold text-[#171209] hover:-translate-y-0.5 hover:shadow-btn-cream",
+  outline:
+    "border border-[rgba(244,237,225,0.28)] bg-transparent font-semibold text-cream hover:-translate-y-0.5 hover:border-cream",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -34,7 +36,7 @@ type ButtonAsLink = BaseProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps> & { href: string };
 
 export const Button = ({
-  variant = "primary",
+  variant = "amber",
   size = "md",
   className,
   children,

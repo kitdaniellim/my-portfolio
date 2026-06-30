@@ -50,18 +50,18 @@ const Hero = () => {
     >
       <div className="hero-content mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 will-change-transform sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-[60px]">
         <div className="order-2 lg:order-1">
-          <p className="hero-eyebrow eyebrow mb-[22px]">
+          <p className="hero-eyebrow eyebrow mb-6">
             <span aria-hidden className="eyebrow-dash" />
             {profile.greeting}
           </p>
 
-          <h1 className="mb-[26px] text-[clamp(46px,6.4vw,86px)] font-extrabold leading-[0.96] tracking-[-0.025em] text-[#7a7c83]">
+          <h1 className="mb-[26px] text-[clamp(46px,6.2vw,84px)] font-extrabold leading-[0.95] tracking-[-0.03em] text-cream">
             {profile.headline.map((word, index) => (
               <span
                 key={index}
                 className={cn(
                   "hero-line mr-[0.22em] inline-block last:mr-0",
-                  word.accent && "text-accent"
+                  word.serif && "serif text-[1.04em]"
                 )}
               >
                 {word.text}
@@ -69,7 +69,7 @@ const Hero = () => {
             ))}
           </h1>
 
-          <p className="hero-fade mb-9 max-w-[30em] text-[clamp(16px,1.4vw,19px)] leading-[1.65] text-muted">
+          <p className="hero-fade mb-9 max-w-[30em] text-[clamp(16px,1.4vw,19px)] leading-[1.66] text-muted">
             {profile.intro}
           </p>
 
@@ -77,7 +77,7 @@ const Hero = () => {
             <Button size="lg" onClick={() => scrollToSection("projects")}>
               View Projects
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => scrollToSection("contact")}>
+            <Button size="lg" variant="outline" onClick={() => scrollToSection("contact")}>
               Contact Me
             </Button>
           </div>
@@ -89,11 +89,11 @@ const Hero = () => {
               src={profile.photo}
               alt={`Kit Daniel Lim — full-stack developer`}
               width={800}
-              height={896}
+              height={912}
               placeholder={profile.photoPlaceholder}
               priority
-              className="aspect-[1/1.12] w-full"
-              imgClassName="object-[50%_22%]"
+              className="aspect-[1/1.14] w-full"
+              imgClassName="object-[50%_22%] [filter:saturate(0.8)_sepia(0.16)_contrast(1.02)]"
             />
           </MediaFrame>
         </div>
@@ -106,7 +106,7 @@ const Hero = () => {
           event.preventDefault();
           scrollToSection(SECTIONS.about);
         }}
-        className="hero-cue absolute bottom-[30px] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-muted no-underline"
+        className="hero-cue absolute bottom-[30px] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#6f6452] no-underline"
       >
         Scroll
         <span aria-hidden className="animate-bob text-[15px]">

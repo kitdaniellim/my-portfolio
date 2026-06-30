@@ -35,7 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
     };
   }, []);
 
-  return <div className="min-h-screen overflow-x-hidden bg-bg text-muted">{children}</div>;
+  return <div className="min-h-screen overflow-x-hidden bg-bg text-fg">{children}</div>;
 };
 
 export default Layout;

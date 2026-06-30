@@ -11,11 +11,10 @@ const Experience = () => {
       gsap.matchMedia().add(MOTION_OK, () => {
         gsap.fromTo(
           ".exp-head > *",
-          { y: 28, opacity: 0 },
+          { y: 28 },
           {
             y: 0,
-            opacity: 1,
-            duration: 0.8,
+            duration: 0.7,
             stagger: 0.1,
             ease: "power3.out",
             scrollTrigger: { trigger: root.current, start: "top 72%" },
@@ -80,20 +79,20 @@ const Experience = () => {
       id={SECTIONS.experience}
       ref={root}
       aria-label="Experience"
-      className="relative overflow-hidden bg-exp-glow py-32 pb-[150px]"
+      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.05)] bg-exp-glow py-32 pb-[150px]"
     >
       <div className="mx-auto w-[min(1180px,92vw)]">
         <div className="exp-head mx-auto mb-[70px] max-w-[640px] text-center">
-          <span className="eyebrow justify-center !text-[#b9bcc2]">{experience.eyebrow}</span>
-          <h2 className="mt-3 font-display text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.022em] text-white">
-            {experience.headingLines.map((line, index) => (
-              <span key={line}>
-                {line}
-                {index < experience.headingLines.length - 1 && <br />}
-              </span>
-            ))}
+          <span className="eyebrow justify-center">
+            <span aria-hidden className="eyebrow-dash" />
+            {experience.eyebrow}
+          </span>
+          <h2 className="mt-3 text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.025em] text-cream">
+            {experience.headingLead}
+            <br />
+            <span className="serif">{experience.headingSerif}</span>
           </h2>
-          <p className="mx-auto mt-[22px] max-w-[34em] text-[18px] leading-[1.6] text-[#9fb3c6]">
+          <p className="mx-auto mt-[22px] max-w-[34em] text-[18px] leading-[1.6] text-muted">
             {experience.lead}
           </p>
         </div>
@@ -103,24 +102,12 @@ const Experience = () => {
             <span className="tl-fill" />
           </div>
 
-          {experience.items.map((item) => (
-            <div key={item.idx} className={`tl-item ${item.side === "l" ? "tl-l" : "tl-r"}`}>
-              <span className="tl-node" aria-hidden>
-                {item.idx}
-              </span>
-              <span className="tl-connect" aria-hidden />
+          {experience.items.map((item, index) => (
+            <div key={index} className={`tl-item ${item.side === "l" ? "tl-l" : "tl-r"}`}>
+              <span className="tl-node" aria-hidden />
               <div className="tl-card">
-                <span className="tl-num" aria-hidden>
-                  {item.idx}
-                </span>
                 {item.mark && <span className="tl-mark">{item.mark}</span>}
-                <div className="tl-top">
-                  <span className="tl-badge" aria-hidden>
-                    {item.logo}
-                  </span>
-                  <span className="tl-yr">{item.year}</span>
-                  <span className="tl-dur">{item.duration}</span>
-                </div>
+                <div className="tl-yr">{item.year}</div>
                 <h3 className="tl-role">{item.role}</h3>
                 <div className="tl-co">
                   {item.company} · {item.place}
