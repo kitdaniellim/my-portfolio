@@ -94,7 +94,7 @@ const About = () => {
                   {"count" in stat ? (
                     <span className="text-[52px]">
                       <span data-counter={stat.count}>{stat.count}</span>
-                      {stat.suffix && <span className="text-amber">{stat.suffix}</span>}
+                      {stat.suffix && <span className="text-accent">{stat.suffix}</span>}
                     </span>
                   ) : (
                     <span className="serif text-[50px] leading-none">{stat.display}</span>
@@ -115,7 +115,7 @@ const About = () => {
               <h3 className="mb-[18px] flex items-center gap-3 font-display text-[19px] font-bold text-cream">
                 <span
                   aria-hidden
-                  className="h-[9px] w-[9px] rounded-full bg-amber shadow-[0_0_0_4px_rgba(232,166,74,0.18)]"
+                  className="h-[9px] w-[9px] rounded-full bg-accent shadow-[0_0_0_4px_rgba(142,205,184,0.18)]"
                 />
                 {group.title}
               </h3>

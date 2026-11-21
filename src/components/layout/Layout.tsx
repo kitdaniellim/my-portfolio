@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "../../lib/gsap";
 import "../../lib/scroll";
+import CodeBackdrop from "./CodeBackdrop";
 
 interface LayoutProps {
   children: ReactNode;
@@ -35,7 +36,12 @@ const Layout = ({ children }: LayoutProps) => {
     };
   }, []);
 
-  return <div className="min-h-screen overflow-x-hidden bg-bg text-fg">{children}</div>;
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-bg text-fg">
+      <CodeBackdrop />
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
 };
 
 export default Layout;

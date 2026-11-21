@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, MOTION_OK } from "../../lib/gsap";
 import { experience, SECTIONS } from "../../data/site";
+import { cn } from "../../lib/utils";
 
 const Experience = () => {
   const root = useRef<HTMLElement>(null);
@@ -79,7 +80,7 @@ const Experience = () => {
       id={SECTIONS.experience}
       ref={root}
       aria-label="Experience"
-      className="relative overflow-hidden border-t border-[rgba(255,255,255,0.05)] bg-exp-glow py-32 pb-[150px]"
+      className="relative overflow-hidden py-32 pb-[150px]"
     >
       <div className="mx-auto w-[min(1180px,92vw)]">
         <div className="exp-head mx-auto mb-[70px] max-w-[640px] text-center">
@@ -99,27 +100,41 @@ const Experience = () => {
             <span className="tl-fill" />
           </div>
 
-          {experience.items.map((item, index) => (
-            <div key={index} className={`tl-item ${item.side === "l" ? "tl-l" : "tl-r"}`}>
-              <span className="tl-node" aria-hidden />
-              <div className="tl-card">
-                {item.mark && <span className="tl-mark">{item.mark}</span>}
-                <div className="tl-yr">{item.year}</div>
-                <h3 className="tl-role">{item.role}</h3>
-                <div className="tl-co">
-                  {item.company} · {item.place}
+          {experience.items.map((item, index) => {
+            const isNow = index === experience.items.length - 1;
+            return (
+              <div
+                key={index}
+                className={cn("tl-item", item.side === "l" ? "tl-l" : "tl-r", isNow && "tl-now")}
+              >
+                <span className="tl-node" aria-hidden />
+                <div className="tl-ghost" aria-hidden>
+                  <span className="tl-ghost-yr">{item.year}</span>
                 </div>
-                <p className="tl-blurb">{item.blurb}</p>
-                <div className="tl-tags">
-                  {item.tags.map((tag) => (
-                    <span key={tag} className="dchip">
-                      {tag}
+                <div className="tl-card">
+                  <div className="tl-meta">
+                    <span className="tl-idx">
+                      {String(index + 1).padStart(2, "0")} / {String(experience.items.length).padStart(2, "0")}
                     </span>
-                  ))}
+                    <span className="tl-yr">{item.year}</span>
+                    {item.mark && <span className="tl-mark">{item.mark}</span>}
+                  </div>
+                  <h3 className="tl-role">{item.role}</h3>
+                  <div className="tl-co">
+                    {item.company} · {item.place}
+                  </div>
+                  <p className="tl-blurb">{item.blurb}</p>
+                  <div className="tl-tags">
+                    {item.tags.map((tag) => (
+                      <span key={tag} className="dchip">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

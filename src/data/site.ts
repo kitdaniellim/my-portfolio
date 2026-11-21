@@ -41,13 +41,21 @@ export interface ExperienceItem {
   mark?: string;
 }
 
-export interface Project {
-  id: number;
-  year: string;
+export interface ProjectFile {
+  name: string;
+  /** Language / platform; drives the colour dot on the file tab. */
+  lang: string;
+  /** One-line summary, used for the link's accessible name and tooltip. */
+  note: string;
+  href: string;
+  /** Pinned on the GitHub profile. */
+  pinned?: boolean;
+}
+
+export interface ProjectFolder {
+  id: string;
   title: string;
-  org: string;
-  description: string;
-  tags: string[];
+  files: ProjectFile[];
 }
 
 export interface NamedLink {
@@ -60,7 +68,7 @@ export const profile = {
   initials: "KDL",
   role: "Full-stack Developer",
   location: "Cebu City",
-  greeting: "Hello, I'm Kit Daniel Lim",
+  greeting: "Hello, I'm Kit",
   headline: [
     { text: "Crafting" },
     { text: "digital" },
@@ -83,15 +91,14 @@ export const navItems: NavItem[] = [
 ];
 
 export const about = {
-  headingLines: ["From Cebu City,", "Philippines."],
-  headingSerif: "Building for the world.",
+  headingLines: ["Full-stack developer"],
+  headingSerif: "based in Cebu City.",
   paragraphs: [
-    "To me, code is a craft, not just syntax — it's how a real problem becomes a clean solution. I'm drawn to work of every scale, especially the projects that demand curiosity, a fresh approach, and the willingness to learn something new fast.",
-    "Across six-plus years I've shipped for mobile, enterprise, full-stack and SaaS teams — local and international — and I'm at home on both sides of the stack. I communicate clearly, stay steady under pressure, and care that what I build doesn't just work, but actually means something to the people who use it.",
+    "I like turning real problems into software that is simple to use. I've worked on projects of different sizes, and I enjoy the ones where I have to learn something new along the way.",
+    "Over the past six years I've worked with mobile, enterprise and SaaS teams in the Philippines and abroad, on both the frontend and the backend. I try to communicate clearly, stay calm when things get busy, and build things that are useful to the people who rely on them.",
   ],
   stats: [
     { count: 6, suffix: "+", label: "Years of experience" },
-    { count: 6, label: "Companies shipped for" },
     { display: "Full·stack", label: "Frontend & backend" },
   ] satisfies Stat[],
   skills: [
@@ -180,64 +187,135 @@ export const experience = {
   ] satisfies ExperienceItem[],
 };
 
-export const projects: Project[] = [
+const repo = (name: string, owner = "kitdaniellim") => `https://github.com/${owner}/${name}`;
+
+// Public repositories only. Within each folder, repos pinned on the GitHub
+// profile come first.
+export const projectFolders: ProjectFolder[] = [
   {
-    id: 1,
-    year: "2025",
-    title: "Company Portal",
-    org: "Habits365Greek, LLC",
-    description:
-      "An internal operations portal built from the ground up — automating workflows and lifting operational efficiency by 130%.",
-    tags: ["React", "Node.js", "Zoho CRM", "Automation"],
+    id: "ai",
+    title: "AI & Agents",
+    files: [
+      {
+        name: "claude-village",
+        lang: "TypeScript",
+        note: "Claude Code sessions visualised as a pixel-art fantasy world",
+        href: repo("claude-village"),
+        pinned: true,
+      },
+      {
+        name: "ai-support-app",
+        lang: "TypeScript",
+        note: "AI-assisted customer support app",
+        href: repo("ai-support-app"),
+        pinned: true,
+      },
+      {
+        name: "lang-chain-app",
+        lang: "Python",
+        note: "LangChain application",
+        href: repo("lang-chain-app"),
+      },
+    ],
   },
   {
-    id: 2,
-    year: "2023–25",
-    title: "B2B SaaS Platform",
-    org: "Inchcape Digital",
-    description:
-      "Production features and fixes shipped across multiple international markets in fast-moving Agile teams.",
-    tags: ["React", "TypeScript", "Agile"],
+    id: "web",
+    title: "Web Apps",
+    files: [
+      {
+        name: "momma-mia-catering-website",
+        lang: "TypeScript",
+        note: "Public website for Momma Mia Catering",
+        href: repo("momma-mia-catering-website", "mommamiacaters"),
+        pinned: true,
+      },
+      {
+        name: "my-portfolio",
+        lang: "TypeScript",
+        note: "This site, built with React, Vite and GSAP",
+        href: repo("my-portfolio"),
+        pinned: true,
+      },
+      {
+        name: "user-directory-viewer",
+        lang: "TypeScript",
+        note: "User directory viewer built for a tech test",
+        href: repo("user-directory-viewer"),
+      },
+      {
+        name: "weather-app",
+        lang: "JavaScript",
+        note: "React weather app from a 24-hour coding challenge",
+        href: repo("weather-app"),
+      },
+    ],
   },
   {
-    id: 3,
-    year: "2022",
-    title: "Logistics Web App",
-    org: "GOLOG, Malaysia",
-    description:
-      "Operational dashboards for a logistics platform, engineered with Vue and the Vuexy framework alongside global teams.",
-    tags: ["Vue.js", "Bootstrap", "Vuexy"],
+    id: "mobile",
+    title: "Mobile & Games",
+    files: [
+      {
+        name: "doc-app",
+        lang: "React Native",
+        note: "SetMeApp, a doctor and patient appointment app for Doctors Epic",
+        href: repo("doc-app"),
+        pinned: true,
+      },
+      {
+        name: "alab-unity-game",
+        lang: "C#",
+        note: "ALAB, a 2D e-learning game for the University of San Carlos",
+        href: repo("alab-unity-game"),
+        pinned: true,
+      },
+    ],
   },
   {
-    id: 4,
-    year: "2020",
-    title: "Healthcare Mobile App",
-    org: "Doctors Epic",
-    description:
-      "A cross-platform iOS & Android patient app designed and shipped end-to-end with React Native and Firebase.",
-    tags: ["React Native", "Expo", "Firebase"],
+    id: "practice",
+    title: "Practice & Training",
+    files: [
+      {
+        name: "cafe-management-ojt",
+        lang: "ServiceNow",
+        note: "Cafe management internship project at ROCOCO Global Technologies",
+        href: repo("cafe-management-ojt"),
+      },
+      {
+        name: "payment-app",
+        lang: "TypeScript",
+        note: "React app for repayment frequencies and dates",
+        href: repo("payment-app"),
+      },
+      {
+        name: "vue-crud",
+        lang: "Vue",
+        note: "Vue CRUD application",
+        href: repo("vue-crud"),
+      },
+      {
+        name: "JS-cert",
+        lang: "JavaScript",
+        note: "JavaScript training and certification project",
+        href: repo("JS-cert"),
+      },
+    ],
   },
 ];
 
 export const githubCard = {
   href: "https://github.com/kitdaniellim?tab=repositories",
   title: "More on GitHub",
-  description:
-    "Side projects, experiments and open-source work — browse the full repository list.",
   handle: "github.com/kitdaniellim",
 };
 
 export const contact = {
   eyebrow: "Get in touch",
-  headingLead: "Let's build something",
-  headingTrailPrefix: "that ",
-  headingTrailSerif: "matters.",
+  headingLead: "Have a project in mind?",
+  headingTrailPrefix: "Let's ",
+  headingTrailSerif: "talk.",
   email: "kitdaniellim@gmail.com",
-  phone: { display: "0932 236 8116", href: "tel:+639322368116" },
-  locationLabel: "Lahug, Cebu City, PH",
   links: [
     { label: "GitHub", href: "https://github.com/kitdaniellim" },
-    { label: "Portfolio", href: "https://kitdaniellim.dev" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/kitdaniellim" },
   ] satisfies NamedLink[],
-  footerNote: "Crafted with intent.",
 };

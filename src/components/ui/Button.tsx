@@ -1,19 +1,19 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "../../lib/utils";
 
-type ButtonVariant = "amber" | "cream" | "outline";
+type ButtonVariant = "accent" | "cream" | "outline";
 type ButtonSize = "sm" | "md" | "lg";
 
 const baseClasses =
   "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition-all duration-200 will-change-transform";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  amber:
-    "bg-amber font-bold text-[#1a1407] hover:-translate-y-0.5 hover:shadow-btn-amber",
+  accent:
+    "bg-accent font-bold text-[#0b1a16] hover:-translate-y-0.5 hover:shadow-btn-accent",
   cream:
-    "bg-cream font-semibold text-[#171209] hover:-translate-y-0.5 hover:shadow-btn-cream",
+    "bg-cream font-semibold text-[#0b1614] hover:-translate-y-0.5 hover:shadow-btn-cream",
   outline:
-    "border border-[rgba(244,237,225,0.28)] bg-transparent font-semibold text-cream hover:-translate-y-0.5 hover:border-cream",
+    "border border-[rgba(234,240,238,0.28)] bg-transparent font-semibold text-cream hover:-translate-y-0.5 hover:border-cream",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -36,7 +36,7 @@ type ButtonAsLink = BaseProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps> & { href: string };
 
 export const Button = ({
-  variant = "amber",
+  variant = "accent",
   size = "md",
   className,
   children,

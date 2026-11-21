@@ -46,7 +46,7 @@ const Hero = () => {
       id={SECTIONS.home}
       ref={root}
       aria-label="Introduction"
-      className="relative flex min-h-screen items-center overflow-hidden bg-hero-glow pb-20 pt-32"
+      className="relative flex min-h-screen items-center overflow-hidden pb-20 pt-32"
     >
       <div className="hero-content mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 will-change-transform sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-[60px]">
         <div className="order-2 lg:order-1">
@@ -93,7 +93,7 @@ const Hero = () => {
               placeholder={profile.photoPlaceholder}
               priority
               className="aspect-[1/1.14] w-full"
-              imgClassName="object-[50%_22%] [filter:saturate(0.8)_sepia(0.16)_contrast(1.02)]"
+              imgClassName="object-[50%_22%]"
             />
           </MediaFrame>
         </div>
@@ -106,7 +106,7 @@ const Hero = () => {
           event.preventDefault();
           scrollToSection(SECTIONS.about);
         }}
-        className="hero-cue absolute bottom-[30px] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#6f6452] no-underline"
+        className="hero-cue absolute bottom-[30px] left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] font-bold uppercase tracking-[0.24em] text-[#5f706c] no-underline"
       >
         Scroll
         <span aria-hidden className="animate-bob text-[15px]">

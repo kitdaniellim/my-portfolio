@@ -79,7 +79,7 @@ const Navbar = () => {
           aria-label="Back to top"
         >
           {profile.initials}
-          <span className="text-amber">.</span>
+          <span className="text-accent">.</span>
         </button>
 
         <nav
@@ -94,8 +94,8 @@ const Navbar = () => {
               className={cn(
                 "cursor-pointer rounded-full px-[19px] py-[9px] text-sm font-semibold transition-colors",
                 active === item.id
-                  ? "bg-amber text-[#1a1407]"
-                  : "text-[#b6ab98] hover:text-cream"
+                  ? "bg-accent text-[#0b1a16]"
+                  : "text-[#9fb0ab] hover:text-cream"
               )}
             >
               {item.label}

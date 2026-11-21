@@ -1,7 +1,20 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, MOTION_OK } from "../../lib/gsap";
-import { projects, githubCard, SECTIONS } from "../../data/site";
+import type { CSSProperties } from "react";
+import { ArrowUpRight, Pin } from "lucide-react";
+import { Button } from "../ui/Button";
+import { projectFolders, githubCard, SECTIONS } from "../../data/site";
+
+// GitHub linguist colours, so the dots match what the repo page shows.
+const LANG_COLORS: Record<string, string> = {
+  TypeScript: "#3178c6",
+  JavaScript: "#f1e05a",
+  "React Native": "#f1e05a",
+  Python: "#3572a5",
+  "C#": "#7355dd",
+  Vue: "#41b883",
+};
 
 const Projects = () => {
   const root = useRef<HTMLElement>(null);
@@ -43,63 +56,79 @@ const Projects = () => {
       className="relative px-5 py-28 sm:px-8"
     >
       <div className="mx-auto max-w-[1180px]">
-        <div className="proj-head mb-[54px]">
-          <p className="eyebrow mb-6">
-            <span aria-hidden className="eyebrow-dash" />
-            Selected work
-          </p>
-          <h2 className="text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.025em] text-cream">
-            Things I&apos;ve built
-            <br />
-            <span className="serif">that shipped.</span>
-          </h2>
-        </div>
-
-        <div className="proj-grid grid gap-[22px] sm:grid-cols-2">
-          {projects.map((project) => (
-            <article
-              key={project.id}
-              className="proj-card rounded-3xl border border-panelb bg-panel px-[34px] pb-[30px] pt-[34px] transition-all duration-300 hover:-translate-y-[5px] hover:border-[rgba(232,166,74,0.42)] hover:shadow-proj"
-            >
-              <span className="serif text-xl">{project.year}</span>
-              <h3 className="mb-1 mt-2.5 font-display text-[25px] font-bold leading-[1.1] tracking-[-0.01em] text-cream">
-                {project.title}
-              </h3>
-              <div className="mb-4 text-sm font-semibold text-muted">{project.org}</div>
-              <p className="mb-5 text-[15.5px] leading-[1.62]">{project.description}</p>
-              <div className="flex flex-wrap gap-2.5">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-[rgba(255,255,255,0.07)] bg-chip px-4 py-[9px] text-sm font-medium text-chipt"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </article>
-          ))}
-
-          <a
+        <div className="proj-head mb-2 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="eyebrow mb-6">
+              <span aria-hidden className="eyebrow-dash" />
+              Selected work
+            </p>
+            <h2 className="text-[clamp(34px,4.6vw,60px)] font-extrabold leading-none tracking-[-0.025em] text-cream">
+              Things I&apos;ve built
+              <br />
+              <span className="serif">that shipped.</span>
+            </h2>
+          </div>
+          <Button
+            variant="outline"
             href={githubCard.href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`${githubCard.title} — ${githubCard.handle} (opens in a new tab)`}
-            className="proj-card flex flex-col rounded-3xl border border-transparent bg-gh-amber px-[34px] pb-[30px] pt-[34px] text-[#1a1407] transition-all duration-300 hover:-translate-y-[5px] hover:shadow-gh"
+            aria-label={`${githubCard.title}: ${githubCard.handle} (opens in a new tab)`}
           >
-            <div className="mb-auto text-[30px] leading-none" aria-hidden>
-              ↗
-            </div>
-            <h3 className="mt-3.5 font-display text-[25px] font-bold leading-[1.1] tracking-[-0.01em] text-[#1a1407]">
-              {githubCard.title}
-            </h3>
-            <p className="mt-1 text-[15.5px] leading-[1.62] text-[#43320f]">
-              {githubCard.description}
-            </p>
-            <span className="mt-3.5 font-display text-[15px] font-bold text-[#1a1407]">
-              {githubCard.handle}
-            </span>
-          </a>
+            {githubCard.title}
+            <ArrowUpRight aria-hidden size={17} />
+          </Button>
+        </div>
+
+        <div className="proj-grid grid gap-x-[22px] gap-y-2 sm:grid-cols-2 lg:grid-cols-4">
+          {projectFolders.map((folder) => (
+            <article key={folder.id} className="proj-card folder" aria-label={folder.title}>
+              <div className="folder-body">
+                <div className="folder-back" aria-hidden />
+
+                <ul className="folder-files">
+                  {folder.files.map((file, index) => (
+                    <li
+                      key={file.name}
+                      className="file"
+                      style={
+                        {
+                          "--i": index,
+                          "--n": folder.files.length,
+                          "--tilt": index % 2 === 0 ? -1 : 1,
+                        } as CSSProperties
+                      }
+                    >
+                      <a
+                        href={file.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${file.name}, ${file.lang}${file.pinned ? ", pinned" : ""}. ${file.note} (opens in a new tab)`}
+                        className="file-tab"
+                      >
+                        <span
+                          aria-hidden
+                          className="file-dot"
+                          style={{ background: LANG_COLORS[file.lang] ?? "#84948f" }}
+                        />
+                        <span className="file-name">{file.name}</span>
+                        {file.pinned && <Pin aria-hidden size={12} className="file-pin" />}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="folder-front">
+                  <span className="folder-tab" aria-hidden>
+                    {folder.files.length} repos
+                  </span>
+                  <div className="folder-label">
+                    <h3 className="folder-title">{folder.title}</h3>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
