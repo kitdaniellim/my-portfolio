@@ -303,7 +303,7 @@ export const projectFolders: ProjectFolder[] = [
 ];
 
 export const githubCard = {
-  href: "https://github.com/kitdaniellim?tab=repositories",
+  href: "https://github.com/kitdaniellim",
   title: "More on GitHub",
   handle: "github.com/kitdaniellim",
 };
